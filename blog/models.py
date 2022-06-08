@@ -59,7 +59,7 @@ REASON = [
 
 class PostReport(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=10,choices=REASON)
+    reason = models.CharField(max_length=100,choices=REASON)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date_reported = models.DateTimeField(default=timezone.now) 
 
