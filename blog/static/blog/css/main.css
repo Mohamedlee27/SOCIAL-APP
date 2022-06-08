@@ -18,3 +18,6 @@ body{background:#fafafa;color:#333;margin-top:5rem;position:relative}h1,h2,h3,h4
 .suggestions-left img {
 	border: 1px solid orange;
 }
+#youtuber{
+	background-image: url(/blog/static/blog/img/YT.png);
+}
