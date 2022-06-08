@@ -30,3 +30,22 @@ class Post(models.Model):
     @property
     def total_likes(self):
         return self.likes.count()
+        
+    def __str__(self):
+        return self.title
+
+            
+    def get_absolute_url(self):
+        return reverse('blog:post-detail', kwargs={'slug': self.slug})
+
+    def whatsapp_share_url(self):
+        url = "https://wa.me/?text=http%3A//nccbuddy.com"+self.get_absolute_url()
+        return url
+
+    def facebook_share_url(self):
+        url = "https://www.facebook.com/sharer/sharer.php?u=http%3A//nccbuddy.com"+self.get_absolute_url()
+        return url
+
+    def twitter_share_url(self):
+        url = "https://twitter.com/intent/tweet?text=http%3A//nccbuddy.com"+self.get_absolute_url()
+        return url
