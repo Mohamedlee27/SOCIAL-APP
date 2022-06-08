@@ -56,3 +56,29 @@ REASON = [
     ('INAPPROPRIATE','INAPPROPRIATE'),
     
 ]
+
+class PostReport(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=10,choices=REASON)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    date_reported = models.DateTimeField(default=timezone.now) 
+
+    def __str__(self):
+        return self.post.title
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.comment
+
+class Notification(models.Model):
+    sender = models.ForeignKey(User,on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(User,on_delete=models.CASCADE, related_name='receiver')
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,null=True)
+    action = models.CharField(max_length=50, blank=True)
+    read = models.BooleanField(default=False)    
+    timestamp = models.DateTimeField(default=timezone.now)
