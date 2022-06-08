@@ -11,9 +11,6 @@ import random
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Post, Comment, PostReport, Notification
 from users.models import UserReport

@@ -1,3 +1,4 @@
+# Third party imports.
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -8,6 +9,7 @@ from imagekit.processors import ResizeToFill,Transpose
 from django.db.models.signals import post_save,pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
@@ -49,6 +51,7 @@ class Post(models.Model):
     def twitter_share_url(self):
         url = "https://twitter.com/intent/tweet?text=http%3A//nccbuddy.com"+self.get_absolute_url()
         return url
+        
 
 REASON = [
     
@@ -57,9 +60,10 @@ REASON = [
     
 ]
 
+
 class PostReport(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    reason = models.CharField(max_length=100,choices=REASON)
+    reason = models.CharField(max_length=15,choices=REASON)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date_reported = models.DateTimeField(default=timezone.now) 
 
@@ -82,3 +86,44 @@ class Notification(models.Model):
     action = models.CharField(max_length=50, blank=True)
     read = models.BooleanField(default=False)    
     timestamp = models.DateTimeField(default=timezone.now)
+
+
+# SIGNALS
+@receiver(post_save,sender=Post)
+def post_mentioned_notify(sender, instance, *args, **kwargs):
+    sender = User.objects.get(pk=instance.author.pk)
+    post = Post.objects.get(pk=instance.pk)
+    string = instance.content
+    poss_users = [i  for i in string.split() if i.startswith("@")]
+    poss_users_list = []
+    for user in poss_users:
+        poss_users_list.append(user[1:])
+
+    for username in poss_users_list:
+        try:
+            get_user = User.objects.get(username=username)
+        except:
+            continue
+        if get_user in instance.tagged_users.all():
+            continue
+        elif get_user == sender:
+            continue
+        else:
+            instance.tagged_users.add(get_user)
+            notify = Notification.objects.create(sender=sender,receiver=get_user,post=post,action="mentioned you in post")
+
+
+@receiver(post_save,sender=Comment)
+def comment_added_notify(sender, instance, *args, **kwargs):
+    sender = User.objects.get(pk=instance.author.pk)
+    post = Post.objects.get(pk=instance.post.pk)
+    receiver = User.objects.get(pk=instance.post.author.pk)
+    if receiver == sender:
+        pass
+    else:
+        notify = Notification.objects.create(sender=sender,receiver=receiver,post=post,action="commented on your post")
+
+
+@receiver(pre_save,sender=Post)
+def sulg_generator(sender, instance, *args, **kwargs):
+    instance.slug = slugify(instance.title+" "+str(sender.objects.count()))
