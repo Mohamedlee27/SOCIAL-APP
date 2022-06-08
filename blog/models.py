@@ -30,7 +30,7 @@ class Post(models.Model):
     @property
     def total_likes(self):
         return self.likes.count()
-        
+
     def __str__(self):
         return self.title
 
@@ -49,3 +49,10 @@ class Post(models.Model):
     def twitter_share_url(self):
         url = "https://twitter.com/intent/tweet?text=http%3A//nccbuddy.com"+self.get_absolute_url()
         return url
+
+REASON = [
+    
+    ('SPAM','SPAM'),
+    ('INAPPROPRIATE','INAPPROPRIATE'),
+    
+]
