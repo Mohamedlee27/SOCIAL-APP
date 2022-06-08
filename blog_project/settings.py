@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'taggit',
+    'storages',
+    'imagekit', 
+    'crispy_forms',
     'blog',
     'users.apps.UsersConfig',
     'footer',
