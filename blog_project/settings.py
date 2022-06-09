@@ -10,7 +10,7 @@ SECRET_KEY = '6+_(6czw@+gbm$5q@j6u#ubk^)19o&0+3wi!2u(%x^^y^!d(j#'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','instalife.com','www.instalife.com']
+ALLOWED_HOSTS = ['127.0.0.1','instalife.com','www.instalife.com', 'instalee.herokuapp.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
