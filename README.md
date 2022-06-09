@@ -1,4 +1,4 @@
-"# SOCIAL-APP" # INSTAGRAM CLONE
+# SOCIAL-APP
 
 ### Created By Mohamed Lee
 
