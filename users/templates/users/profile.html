@@ -1,6 +1,6 @@
 {% extends "blog/base.html" %} 
 {% load crispy_forms_tags %}
-{% block title %}<title> @{{request.user.username}} - nccbuddy.com</title>{% endblock %}
+{% block title %}<title> @{{request.user.username}} - instalife.com</title>{% endblock %}
 {% block content %}
 
 <style type="text/css">
@@ -71,7 +71,7 @@
                 {% else %}
                 <a href="{% url 'follow-unfollow' user_id.id %}">
                 		{% if user_id in request.user.profile.follows.all %}
-                		<button type="button" class="btn btn-outline-secondary btn-sm">Unfollow Buddy</button>
+                		<button type="button" class="btn btn-outline-secondary btn-sm">Unfollow</button>
                 		{% else %}
                 		<button type="button" class="btn btn-info btn-sm">Follow Buddy</button>
                 		{% endif %}
